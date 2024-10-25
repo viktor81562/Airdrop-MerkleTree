@@ -1,66 +1,63 @@
-## Foundry
+# Merkle Airdrop
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+**Merkle Airdrop** is a decentralized application (dApp) that allows users to efficiently claim their allocated tokens by verifying their eligibility using a Merkle proof and cryptographic signature validation. The use of Merkle trees ensures gas-efficient and secure token distribution to eligible claimers without requiring large amounts of on-chain data.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+### Key Features:
+- **Merkle Tree Validation**: Utilizes a Merkle tree to verify users' eligibility with minimal on-chain data, ensuring cost-effective and secure claims.
+- **Token Claims**: Allows users to claim their allocated tokens based on cryptographic proofs and signatures.
+- **Signature Validation**: Implements EIP-712 signature validation for additional security.
+- **Optimized for Efficiency**: Reduces gas costs and on-chain storage through cryptographic proof mechanisms.
 
-## Documentation
+## Tech Stack
 
-https://book.getfoundry.sh/
+- **Smart Contract**: Solidity
+- **Testing Framework**: Foundry
+- **Libraries**: OpenZeppelin Contracts (for ERC20, SafeERC20, and MerkleProof)
 
-## Usage
+## Contracts
 
-### Build
+### BagelToken (ERC20)
+The `BagelToken` contract is an ERC20 token implementation that acts as the airdrop token in this project. It includes minting capabilities, restricted to the contract owner.
 
-```shell
-$ forge build
-```
+### MerkleAirdrop
 
-### Test
+The `MerkleAirdrop` contract is responsible for managing the airdrop functionality, including:
+- **Claim Verification**: Verifies users’ eligibility using a combination of Merkle proofs and EIP-712 signatures.
+- **Token Distribution**: Transfers tokens to users upon successful verification.
+- **Data Integrity**: Maintains a Merkle root for verifying the integrity of the claim process.
 
-```shell
-$ forge test
-```
 
-### Format
+## Getting Started
 
-```shell
-$ forge fmt
-```
+### Prerequisites
+- **Foundry**: A fast, portable Ethereum development toolkit.
 
-### Gas Snapshots
+### Installation
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/viktor81562/Airdrop-MerkleTree.git
+   cd Airdrop-MerkleTree
 
-```shell
-$ forge snapshot
-```
+2. **Install dependencies**
+   ```bash
+   forge install
 
-### Anvil
+3. **Compile**
+   ```bash
+   forge build
 
-```shell
-$ anvil
-```
+3. **Run Tests**
+   ```bash
+   forge test
 
-### Deploy
+4. **Deployment**
+   ```bash
+   forge script script/DeployMerkleAirdrop.s.sol
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+4. **Generating Merkle Proofs**
+   ```bash
+   forge script script/GenerateInput.s.sol
+   forge script script/Merkle.s.sol
+   forge script script/ClaimAirdrop.s.sol
